@@ -1,17 +1,23 @@
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import { ThemeProvider } from "@emotion/react";
+
+import { theme } from "src/styles/theme";
+import { useRetrieveNextPokemon } from "./utils";
 
 function App() {
+  const data = useRetrieveNextPokemon();
+
   return (
-    <Stack direction="row" spacing={2}>
-      <Button color="secondary">Secondary</Button>
-      <Button variant="contained" color="success">
-        Success
-      </Button>
-      <Button variant="outlined" color="error">
-        Error
-      </Button>
-    </Stack>
+    <ThemeProvider theme={theme}>
+      <small>
+        <p>
+          <button onClick={data.previous}>previous</button>
+        </p>
+        <p>
+          <button onClick={data.next}>next</button>
+        </p>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </small>
+    </ThemeProvider>
   );
 }
 
