@@ -1,20 +1,14 @@
 import { createTheme } from "@mui/material/styles";
 
 export const theme = createTheme({
-  status: {
-    danger: "#ff0000",
+  palette: {
+    mode: "dark",
+    background: { default: "#2b2d42", paper: "blue" },
+    primary: {
+      main: "#ef233c",
+    },
+    secondary: {
+      main: "#06d6a0",
+    },
   },
 });
-
-declare module "@mui/material/styles" {
-  interface Theme {
-    status: {
-      danger: string;
-    };
-  }
-  interface ThemeOptions {
-    status?: {
-      danger?: string;
-    };
-  }
-}

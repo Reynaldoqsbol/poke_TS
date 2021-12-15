@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { retrievePokemon } from "src/services/pokemon";
+import { Pokemon, retrievePokemon } from "src/services/pokemon";
 
 export const useRetrieveNextPokemon = () => {
-  const [pokemon, setPokemon] = useState(null);
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [index, setIndex] = useState(1);
