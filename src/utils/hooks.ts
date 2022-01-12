@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Pokemon, retrievePokemon } from "src/services/pokemon";
+import { checkVote, pokemonStatus, setVote } from "src/services/store";
 
 export const useRetrieveNextPokemon = () => {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -28,4 +29,35 @@ export const useRetrieveNextPokemon = () => {
   }, [index]);
 
   return { index, loading, error, pokemon, next, previous };
+};
+
+export const useVoteControl = (pokemonId: number) => {
+  const [voteStatus, setVoteStatus] = useState<pokemonStatus>("neutral");
+
+  const onLike = () => {
+    if (voteStatus === "liked") {
+      setVoteStatus("neutral");
+      setVote(pokemonId, "neutral");
+      return;
+    }
+    setVoteStatus("liked");
+    setVote(pokemonId, "liked");
+  };
+
+  const onDislike = () => {
+    if (voteStatus === "disliked") {
+      setVoteStatus("neutral");
+      setVote(pokemonId, "neutral");
+      return;
+    }
+    setVoteStatus("disliked");
+    setVote(pokemonId, "disliked");
+  };
+
+  useEffect(() => {
+    const status = checkVote(pokemonId);
+    setVoteStatus(status);
+  }, [pokemonId]);
+
+  return { voteStatus, onLike, onDislike };
 };

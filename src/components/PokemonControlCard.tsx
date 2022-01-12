@@ -15,6 +15,8 @@ export const PokemonControlCard: React.FC<PokemonControlCardProps> = ({
   pokemon,
   onNext,
   onPrevious,
+  onLike,
+  onDislike,
 }) => (
   <Box
     sx={{
@@ -50,10 +52,15 @@ export const PokemonControlCard: React.FC<PokemonControlCardProps> = ({
     </Stack>
 
     <Stack direction="row" spacing={1} sx={{ justifyContent: "center", my: 3 }}>
-      <IconButton aria-label="delete" size="large" sx={{ color: "red" }}>
+      <IconButton
+        onClick={onLike}
+        aria-label="delete"
+        size="large"
+        sx={{ color: "blue" }}
+      >
         <ThumbUpOutlinedIcon />
       </IconButton>
-      <IconButton aria-label="delete" color="secondary">
+      <IconButton onClick={onDislike} aria-label="delete" color="secondary">
         <ThumbDownOffAltIcon />
       </IconButton>
     </Stack>
