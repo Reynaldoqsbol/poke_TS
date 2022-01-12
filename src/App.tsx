@@ -1,17 +1,17 @@
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import { ThemeProvider } from "@emotion/react";
+
+import Box from "@mui/material/Box";
+
+import { theme } from "src/styles/theme";
+import { QualifyPokemon } from "./containers";
 
 function App() {
   return (
-    <Stack direction="row" spacing={2}>
-      <Button color="secondary">Secondary</Button>
-      <Button variant="contained" color="success">
-        Success
-      </Button>
-      <Button variant="outlined" color="error">
-        Error
-      </Button>
-    </Stack>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ bgcolor: "#2b2d42" }}>
+        <QualifyPokemon />
+      </Box>
+    </ThemeProvider>
   );
 }
 
