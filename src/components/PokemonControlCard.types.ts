@@ -6,4 +6,5 @@ export type PokemonControlCardProps = {
   onPrevious?: () => void;
   onLike?: () => void;
   onDislike?: () => void;
+  voteStatus?: string;
 };

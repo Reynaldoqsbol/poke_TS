@@ -8,6 +8,8 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 import { PokemonControlCardProps } from "./PokemonControlCard.types";
 
@@ -17,7 +19,10 @@ export const PokemonControlCard: React.FC<PokemonControlCardProps> = ({
   onPrevious,
   onLike,
   onDislike,
-}) => (
+  voteStatus,
+}) => {
+  console.log(voteStatus);
+return (
   <Box
     sx={{
       display: "flex",
@@ -51,17 +56,22 @@ export const PokemonControlCard: React.FC<PokemonControlCardProps> = ({
       ))}
     </Stack>
 
-    <Stack direction="row" spacing={1} sx={{ justifyContent: "center", my: 3 }}>
+    <Stack direction="row" spacing={2} sx={{ justifyContent: "center", my: 3 }}>
+      <IconButton 
+        onClick={onDislike} 
+        aria-label="vote" 
+        sx={{ color: "#8D99AE" }} 
+        size="large"
+        >
+        {voteStatus === "disliked" ? (<ThumbDownIcon fontSize="large" />):(<ThumbDownOffAltIcon fontSize="large" />)}
+      </IconButton>
       <IconButton
         onClick={onLike}
-        aria-label="delete"
+        aria-label="vote"
         size="large"
-        sx={{ color: "blue" }}
+        sx={{ color: "#06D6A0" }}
       >
-        <ThumbUpOutlinedIcon />
-      </IconButton>
-      <IconButton onClick={onDislike} aria-label="delete" color="secondary">
-        <ThumbDownOffAltIcon />
+        {voteStatus === "liked" ? (<ThumbUpIcon fontSize="large" />):(<ThumbUpOutlinedIcon fontSize="large" />)}
       </IconButton>
     </Stack>
 
@@ -74,4 +84,4 @@ export const PokemonControlCard: React.FC<PokemonControlCardProps> = ({
       </Button>
     </Box>
   </Box>
-);
+)};
