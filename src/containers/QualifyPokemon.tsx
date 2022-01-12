@@ -20,6 +20,7 @@ export const QualifyPokemon: React.FC = () => {
           pokemon={data.pokemon}
           onLike={onLike}
           onDislike={onDislike}
+          voteStatus={voteStatus}
         />
       )}
       Vote status: {voteStatus}
