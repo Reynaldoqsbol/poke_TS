@@ -1,13 +1,19 @@
-export type pokemonStatus = "disliked" | "liked" | "neutral";
-
-export const setVote = (id: number, status: pokemonStatus) => {
-  localStorage.setItem(id.toString(), status);
+export const setItem = <T extends number | string | boolean>(
+  key: string,
+  item: T
+) => {
+  localStorage.setItem(key, item.toString());
 };
 
-export const checkVote = (id: number): pokemonStatus => {
-  const status = localStorage.getItem(id.toString());
-  if (!status) {
-    return "neutral";
+// to add a parameter name in type of thing
+export const getItem = <T extends number | string | boolean>(key: string) => {
+  const item = localStorage.getItem(key);
+  if (!item) {
+    return null;
   }
-  return status as pokemonStatus;
+  return JSON.parse(item) as T;
+};
+
+export const removeItem = (key: string) => {
+  localStorage.removeItem(key);
 };

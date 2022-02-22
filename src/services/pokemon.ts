@@ -13,8 +13,11 @@ export type Pokemon = {
   types: [{ slot: number; type: { name: string; url: string } }];
 };
 
-export const retrievePokemon = async (id: number): Promise<Pokemon> => {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+export const retrievePokemon = async (pokemonId: number): Promise<Pokemon> => {
+  const response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
+  );
   const data = await response.json();
-  return data;
+  const { name, abilities, sprites, types } = data;
+  return { name, abilities, sprites, types };
 };

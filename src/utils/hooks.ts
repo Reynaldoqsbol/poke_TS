@@ -1,63 +1,36 @@
 import { useState, useEffect } from "react";
+import { getItem, setItem, removeItem } from "src/services/store";
+
 import { Pokemon, retrievePokemon } from "src/services/pokemon";
-import { checkVote, pokemonStatus, setVote } from "src/services/store";
 
-export const useRetrieveNextPokemon = () => {
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [index, setIndex] = useState(1);
+// @TODO: useRetrievePokemonById
 
-  const next = () => {
-    setIndex(index + 1);
-  };
+export const useStorePokemonRate = (pokemonId: number) => {
+  const [vote, setVote] = useState<boolean | null>(null);
 
-  const previous = () => {
-    setIndex(index - 1);
-  };
-
-  useEffect(() => {
-    retrievePokemon(index)
-      .then(setPokemon)
-      .catch((err) => {
-        setError(err);
-        setPokemon(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [index]);
-
-  return { index, loading, error, pokemon, next, previous };
-};
-
-export const useVoteControl = (pokemonId: number) => {
-  const [voteStatus, setVoteStatus] = useState<pokemonStatus>("neutral");
-
-  const onLike = () => {
-    if (voteStatus === "liked") {
-      setVoteStatus("neutral");
-      setVote(pokemonId, "neutral");
-      return;
+  const onLikePokemon = () => {
+    if (vote === true) {
+      setVote(null);
+      removeItem(pokemonId.toString());
+    } else {
+      setVote(true);
+      setItem<boolean>(pokemonId.toString(), true);
     }
-    setVoteStatus("liked");
-    setVote(pokemonId, "liked");
   };
 
-  const onDislike = () => {
-    if (voteStatus === "disliked") {
-      setVoteStatus("neutral");
-      setVote(pokemonId, "neutral");
-      return;
+  const onDislikePokemon = () => {
+    if (vote === false) {
+      setVote(null);
+      removeItem(pokemonId.toString());
+    } else {
+      setVote(false);
+      setItem<boolean>(pokemonId.toString(), false);
     }
-    setVoteStatus("disliked");
-    setVote(pokemonId, "disliked");
   };
-
   useEffect(() => {
-    const status = checkVote(pokemonId);
-    setVoteStatus(status);
+    const storedStatus = getItem<boolean>(pokemonId.toString());
+    setVote(storedStatus);
   }, [pokemonId]);
 
-  return { voteStatus, onLike, onDislike };
+  return [vote, onLikePokemon, onDislikePokemon] as const;
 };

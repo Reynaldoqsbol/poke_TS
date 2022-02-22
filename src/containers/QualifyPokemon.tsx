@@ -1,31 +1,36 @@
+import { useState } from "react";
+
 import Container from "@mui/material/Container";
 
-import { PokemonBanner, PokemonControlCard } from "src/components";
-import { useRetrieveNextPokemon, useVoteControl } from "src/utils";
+import { useStorePokemonRate } from "src/utils";
 
 export const QualifyPokemon: React.FC = () => {
-  const data = useRetrieveNextPokemon();
-
-  const { voteStatus, onLike, onDislike } = useVoteControl(data.index);
+  const [pokemonId, setPokemonId] = useState(1);
+  const [pokemonQualification, like, dislike] = useStorePokemonRate(pokemonId);
 
   return (
-    <Container maxWidth="xs">
-      {data.pokemon && (
-        <PokemonBanner pokemon={data.pokemon} index={data.index} />
-      )}
-      {data.pokemon && (
-        <PokemonControlCard
-          onNext={data.next}
-          onPrevious={data.previous}
-          pokemon={data.pokemon}
-          onLike={onLike}
-          onDislike={onDislike}
-          voteStatus={voteStatus}
-        />
-      )}
-      Vote status: {voteStatus}
+    <Container maxWidth="xs" style={{ padding: "10px", color: "white" }}>
+      <button
+        onClick={() => {
+          setPokemonId(pokemonId - 1);
+        }}
+      >
+        prev pokemon
+      </button>
+      <button
+        onClick={() => {
+          setPokemonId(pokemonId + 1);
+        }}
+      >
+        next pokemon
+      </button>
+
+      <hr />
+      <button onClick={like}>like</button>
+      <button onClick={dislike}>dislike</button>
+      {JSON.stringify({ pokemonId, pokemonQualification })}
       <small>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <pre>{JSON.stringify({}, null, 2)}</pre>
       </small>
     </Container>
   );
